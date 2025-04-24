@@ -42,7 +42,6 @@ public class OrderController {
         }
     }
 
-    //Lägga order
     private void addOrder(Scanner scanner) throws SQLException {
         System.out.println("Ange kundens id:");
         int customerId = scanner.nextInt();
