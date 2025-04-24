@@ -53,7 +53,7 @@ public class OrderController {
 
         boolean addProduct = true; //Förutsätter att kunden vill lägga till produkt
         while (addProduct) {
-            boolean checkProductValid = false; //Kontrollera produkten
+            boolean checkProductValid = false; //Kontrollera om produkten är tillgänglig
 
             while (!checkProductValid) {
                 System.out.println("Ange produktens id:");

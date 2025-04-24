@@ -29,7 +29,7 @@ public class ProductRepository {
         try (Connection conn = DriverManager.getConnection(URL);
          PreparedStatement pstmt = conn.prepareStatement(sql)){
 
-            pstmt.setString(1, "%" + name + "%");
+            pstmt.setString(1, "%" + name + "%"); //wildcard
 
             ResultSet rs = pstmt.executeQuery();
 

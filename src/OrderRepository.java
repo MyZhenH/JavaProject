@@ -39,7 +39,7 @@ public class OrderRepository {
 
             pstmt.setInt(1, customer_id);
 
-            int createId = pstmt.executeUpdate();
+            int createId = pstmt.executeUpdate(); //Få tillbaka den genererade order-id
 
             if (createId > 0) {
                 ResultSet generatedKeys = pstmt.getGeneratedKeys(); //Hämta order_id
