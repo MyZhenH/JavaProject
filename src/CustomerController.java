@@ -11,16 +11,16 @@ public class CustomerController {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println();
-            System.out.println("--------- \uD83D\uDC64 Kundmeny ----------");
-            System.out.println("1. \uD83D\uDC65 Hämta alla kunder");
-            System.out.println("2. \uD83D\uDC64\uD83C\uDD94 Hämta en kund efter id");
-            System.out.println("3. ➕ Lägg in en ny kund");
-            System.out.println("4. \uD83D\uDCE7 Uppdatera email");
-            System.out.println("5. \uD83D\uDDD1\uFE0F Radera kund");
-            System.out.println("6. \uD83C\uDFE0 Gå till huvudmeny");
-            System.out.println("0. ❌ Avsluta");
-            System.out.println("------------------------------------------");
-            System.out.println("Ange ditt val: ");
+            System.out.println("--------- \uD83D\uDC64 Customer Menu ----------");
+            System.out.println("1. \uD83D\uDC65 Get all customers");
+            System.out.println("2. \uD83D\uDC64\uD83C\uDD94 Get a customer by ID");
+            System.out.println("3. ➕ add a new customer");
+            System.out.println("4. \uD83D\uDCE7 Update email");
+            System.out.println("5. \uD83D\uDDD1\uFE0F Delete customer");
+            System.out.println("6. \uD83C\uDFE0 Go to main menu");
+            System.out.println("0. ❌ Exit");
+            System.out.println("-------------------------------------");
+            System.out.println("Enter your choice: ");
             String select = scanner.nextLine();
 
             switch (select) {
@@ -56,60 +56,59 @@ public class CustomerController {
     }
 
     private void deleteCustomer(Scanner scanner) throws SQLException {
-        System.out.println("Ange kund id som ska raderas:");
+        System.out.println("Enter the customer ID to delete:");
         int idToDelete = scanner.nextInt();
         scanner.nextLine();
         boolean deleteSuccess = customerService.deleteCustomer(idToDelete);
-        System.out.println(deleteSuccess ? "✅ Kund raderad" : " ❌ Kund hittades ej!");
+        System.out.println(deleteSuccess ? "✅ Customer deleted" : " ❌ Customer not found!");
         System.out.println();
     }
 
     private void updateCustomerEmail(Scanner scanner) throws SQLException {
-        System.out.println("Ange id på den kund som ska updateras:");
+        System.out.println("Enter the ID of the customer to update:");
         int customerId = scanner.nextInt();
         scanner.nextLine();
 
-        System.out.println("Ange ny email:");
+        System.out.println("Enter the new email:");
         String newEmail = scanner.nextLine();
 
-        //Validering på att email måste innehålla @
-        while (!newEmail.contains("@")) {
-            System.out.println("Ogiltig email!");
-            System.out.println("Ange ny email:");
+        //Validation to ensure the email contains '@' and "."
+        while (!newEmail.contains("@") || !newEmail.contains(".")) {
+            System.out.println("Invalid email!");
+            System.out.println("Enter the new email:");
             newEmail = scanner.nextLine();
         }
 
         boolean success = customerService.updateEmail(customerId, newEmail);
-        System.out.println(success ? " ✅ Kundens email är uppdaterad" : " ❌ Kund hittades ej!");
+        System.out.println(success ? " ✅ Customer's email is updated" : " ❌ Customer not found!");
         System.out.println();
 
     }
 
-    //Lägga till en kund
     private void addCustomer(Scanner scanner) throws SQLException {
-        System.out.println("Ange ett namn:");
+        System.out.println("Enter a name:");
         String name = scanner.nextLine();
 
-        System.out.println("Ange en email:");
+        System.out.println("Enter an email:");
         String email = scanner.nextLine();
 
-        //Validering på att email måste innehålla @
-        while (!email.contains("@")) {
+        //Validation to ensure the email contains '@' and "."
+        while (!email.contains("@") || !email.contains(".")) {
             System.out.println("Ogiltig email!");
             System.out.println("Ange ny email:");
             email = scanner.nextLine();
         }
 
-        System.out.println("Ange ett lösenord:");
+        System.out.println("Enter a password:");
         String password = scanner.nextLine();
 
         boolean addSuccess = customerService.insertCustomer(name, email, password);
-        System.out.println(addSuccess ? " ✅ Kund tillagd" : " ❌ Ett fel uppstod");
+        System.out.println(addSuccess ? " ✅ Customer added" : " ❌ An error occurred");
         System.out.println();
     }
 
     private void getCustomerById(Scanner scanner) throws SQLException {
-        System.out.println("Ange ID:");
+        System.out.println("Enter ID:");
         int id = scanner.nextInt();
         scanner.nextLine();
         Customer customer = customerRepository.getCustomerById(id);
@@ -121,8 +120,8 @@ public class CustomerController {
     private void getAllCustomer() throws SQLException {
         ArrayList<Customer> customers = customerService.getAllCustomer();
         for (Customer c : customers) {
-            System.out.println(" \uD83C\uDD94  KundId: " + c.getCustomerId());
-            System.out.println(" \uD83D\uDC64 Namn: " + c.getName());
+            System.out.println(" \uD83C\uDD94 CustomerID: " + c.getCustomerId());
+            System.out.println(" \uD83D\uDC64 Name: " + c.getName());
             System.out.println(" \uD83D\uDCE7 Email: " + c.getEmail());
             System.out.println();
         }

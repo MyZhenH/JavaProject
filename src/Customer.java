@@ -17,7 +17,6 @@ public class Customer {
         this.name = name;
     }
 
-
     public int getCustomerId() {
         return customerId;
     }

@@ -38,9 +38,9 @@ public class ProductRepository {
                         rs.getDouble("price"),
                         rs.getInt("stock_quantity"));
 
-                System.out.println("\uD83D\uDCE6 Produkt: " + product.getName());
-                System.out.println("\uD83D\uDD16 Pris: " + product.getPrice());
-                System.out.println("\uD83D\uDD22 Lagersaldo: " + product.getStock_quantity());
+                System.out.println("\uD83D\uDCE6 Product: " + product.getName());
+                System.out.println("\uD83D\uDD16 Price: " + product.getPrice());
+                System.out.println("\uD83D\uDD22 Stock quantity: " + product.getStock_quantity());
                 System.out.println();
             }
             System.out.println();
@@ -66,10 +66,10 @@ public class ProductRepository {
                             rs.getDouble("price"),
                             rs.getInt("stock_quantity"));
 
-                    System.out.println("\uD83C\uDD94 Produkt id: " + product.getProduct_id());
-                    System.out.println("\uD83D\uDCE6 Namn: " + product.getName());
-                    System.out.println("\uD83D\uDD16 Pris: " + product.getPrice());
-                    System.out.println("\uD83D\uDD22 Lagersaldo: " + product.getStock_quantity());
+                    System.out.println("\uD83C\uDD94 Product ID: " + product.getProduct_id());
+                    System.out.println("\uD83D\uDCE6 Name: " + product.getName());
+                    System.out.println("\uD83D\uDD16 Price: " + product.getPrice());
+                    System.out.println("\uD83D\uDD22 Stock quantity: " + product.getStock_quantity());
                     System.out.println();
                 }
                 System.out.println();
@@ -96,16 +96,15 @@ public class ProductRepository {
                             rs.getDouble("price"),
                             rs.getInt("stock_quantity"));
 
-                    System.out.println("Kategori: " + category);
-                    System.out.println("\uD83D\uDCE6 Produkt: " + product.getName());
-                    System.out.println("\uD83D\uDD16 Pris: " + product.getPrice() + " kr");
-                    System.out.println("\uD83D\uDD22 Lagersaldo: " + product.getStock_quantity());
+                    System.out.println("Category: " + category);
+                    System.out.println("\uD83D\uDCE6 Product: " + product.getName());
+                    System.out.println("\uD83D\uDD16 Price: " + product.getPrice() + " kr");
+                    System.out.println("\uD83D\uDD22 Stock quantity: " + product.getStock_quantity());
                     System.out.println();
                 }
             }
         }
 
-        //Uppdatera quantity manuellt
         public boolean updateQuantity(int productId, int stockQuantity) throws SQLException{
         String sql = "UPDATE products SET stock_quantity = ?  WHERE product_id = ?";
 
@@ -179,7 +178,6 @@ public class ProductRepository {
         }
     }
 
-        //Uppdatera lagersaldo
         public void updateStock(int quantity, int productId) throws SQLException {
             String sql = "UPDATE products SET stock_quantity = ? WHERE product_id = ?";
 

@@ -21,8 +21,8 @@ public class OrderRepository {
                         rs.getInt("order_id"),
                         rs.getDate("order_date"));
 
-                System.out.println("\uD83E\uDDFE Order id: " + order.getOrder_id());
-                System.out.println("\uD83D\uDCC5 Orderdatum: " + order.getOrder_date());
+                System.out.println("\uD83E\uDDFE Order ID: " + order.getOrder_id());
+                System.out.println("\uD83D\uDCC5 Order date: " + order.getOrder_date());
                 System.out.println();
             }
             System.out.println();
@@ -32,17 +32,17 @@ public class OrderRepository {
 
     public boolean addProductsOnOrder(int customer_id, List<OrderProduct> orderProducts) throws SQLException {
         String sql = "INSERT INTO orders (customer_id, order_date) VALUES (?, DATETIME('now'))";
-        //Skapa order i orders tabellen
+        //Create order in the orders table
 
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setInt(1, customer_id);
 
-            int createId = pstmt.executeUpdate(); //Få tillbaka den genererade order-id
+            int createId = pstmt.executeUpdate(); //Get the generated order ID
 
             if (createId > 0) {
-                ResultSet generatedKeys = pstmt.getGeneratedKeys(); //Hämta order_id
+                ResultSet generatedKeys = pstmt.getGeneratedKeys();
 
                 if (generatedKeys.next()) {
                     int orderId = generatedKeys.getInt(1);
@@ -50,7 +50,7 @@ public class OrderRepository {
                     System.out.println("\uD83E\uDDFE Order id: " + orderId);
 
                     String orderSql = "INSERT INTO orders_products (order_id, product_id, " +
-                            "quantity, unit_price) VALUES (?, ?, ?, ?)"; //Lägga till produkter i orders_products
+                            "quantity, unit_price) VALUES (?, ?, ?, ?)"; //Add products to orders_products
                     try (PreparedStatement orderProductStmt = conn.prepareStatement(orderSql)) {
 
                         for (OrderProduct orderProduct : orderProducts) {
@@ -59,9 +59,9 @@ public class OrderRepository {
                             orderProductStmt.setInt(3, orderProduct.getQuantity());
                             orderProductStmt.setDouble(4, orderProduct.getUnit_price());
 
-                            System.out.println("\uD83C\uDD94 Produkt id: " + orderProduct.getProduct_id());
-                            System.out.println("\uD83D\uDD22 Antal: " + orderProduct.getQuantity());
-                            System.out.println("\uD83D\uDD16 Pris/st: " + orderProduct.getUnit_price() + " kr");
+                            System.out.println("\uD83C\uDD94 Product ID: " + orderProduct.getProduct_id());
+                            System.out.println("\uD83D\uDD22 Quantity: " + orderProduct.getQuantity());
+                            System.out.println("\uD83D\uDD16 Price/unit: " + orderProduct.getUnit_price() + " SEK");
                             System.out.println();
 
                             orderProductStmt.executeUpdate();
@@ -73,8 +73,6 @@ public class OrderRepository {
             return false;
         }
     }
-
-
 
 
 }

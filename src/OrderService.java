@@ -32,7 +32,6 @@ public class OrderService {
 
     }
 
-
     public void updateStockQuantity(List<OrderProduct> orderProducts) throws SQLException {
 
         for (OrderProduct orderProduct : orderProducts) {
@@ -46,8 +45,6 @@ public class OrderService {
             productRepository.updateStock(newStockQuantity, productId);
         }
     }
-
-
 
 }
 

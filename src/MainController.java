@@ -8,13 +8,13 @@ public class MainController {
 
         while(true){
             System.out.println();
-            System.out.println("---------- \uD83C\uDFE0 Huvudmeny ------------");
-            System.out.println("1. \uD83D\uDC64 Kund");
-            System.out.println("2. \uD83D\uDCE6 Produkter");
-            System.out.println("3. \uD83E\uDDFE Ordrar");
-            System.out.println("0. ❌ Avsluta");
-            System.out.println("---------------------------------");
-            System.out.println("Ange ditt val: ");
+            System.out.println("------\uD83C\uDFE0 Main Menu ------");
+            System.out.println("1. \uD83D\uDC64 Customer");
+            System.out.println("2. \uD83D\uDCE6 Products");
+            System.out.println("3. \uD83E\uDDFE Orders");
+            System.out.println("0. ❌ Exit");
+            System.out.println("-------------------------");
+            System.out.println("Enter your choice: ");
             String select = scanner.nextLine();
 
             switch(select){

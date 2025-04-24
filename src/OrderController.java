@@ -13,13 +13,13 @@ public class OrderController {
 
         while (true) {
             System.out.println();
-            System.out.println("------------ \uD83D\uDCE6 Ordermeny --------------");
-            System.out.println("1. \uD83E\uDDFE Se orderhistorik");
-            System.out.println("2. ➕ Lägg order");
-            System.out.println("3. \uD83C\uDFE0 Gå till huvudmeny");
-            System.out.println("0. ❌ Avsluta");
-            System.out.println("-------------------------------------");
-            System.out.println("Ange ditt val: ");
+            System.out.println("--------\uD83D\uDCE6 Order Menu -------");
+            System.out.println("1. \uD83E\uDDFE View order history");
+            System.out.println("2. ➕ Place order");
+            System.out.println("3. \uD83C\uDFE0 Go to main menu");
+            System.out.println("0. ❌ Exit");
+            System.out.println("-----------------------------");
+            System.out.println("Enter your choice: ");
             String select = scanner.nextLine();
 
             switch (select) {
@@ -43,49 +43,46 @@ public class OrderController {
     }
 
     private void addOrder(Scanner scanner) throws SQLException {
-        System.out.println("Ange kundens id:");
+        System.out.println("Enter customer ID:");
         int customerId = scanner.nextInt();
         scanner.nextLine();
 
         List<OrderProduct> orderProducts = new ArrayList<>();
 
-
-        boolean addProduct = true; //Förutsätter att kunden vill lägga till produkt
+        boolean addProduct = true; //Assume the customer wants to add a product
         while (addProduct) {
-            boolean checkProductValid = false; //Kontrollera om produkten är tillgänglig
+            boolean checkProductValid = false; //Check if the product is available
 
             while (!checkProductValid) {
-                System.out.println("Ange produktens id:");
+                System.out.println("Enter the product ID:");
                 int productId = scanner.nextInt();
                 scanner.nextLine();
 
-                //Kontrollera om det finns tillräckligt med produkter
-                int stockQuantity = productService.getStockQuantity(productId); //Antal produkter i lager
+                //Check if there is enough stock
+                int stockQuantity = productService.getStockQuantity(productId); //Number of products in stock
                 int quantity = 0;
-                boolean checkProductQuantity = false; // Kontrollera lagersaldo
+                boolean checkProductQuantity = false; //Check stock quantity
 
-                //Om lagersaldo är <=0
                 if (stockQuantity <= 0) {
-                    System.out.println("⚠\uFE0F Produkten är slut");
+                    System.out.println("⚠\uFE0F The product is out of stock");
                     continue;
                 }
 
-
                 while (!checkProductQuantity) {
-                    System.out.println("Ange antal:");
+                    System.out.println("Enter quantity:");
                     quantity = scanner.nextInt();
                     scanner.nextLine();
 
-                    // Validering - inte skriva in negativ tal
+                    //Validation - do not allow negative numbers
                     if (quantity <= 0) {
-                        System.out.println("ogiltig svar! får inte vara mindre än 1");
+                        System.out.println("Invalid input! Must be greater than 0");
 
-                        // Validering ifall kunden vill lägga fler produkt, än vad som finns i lager
+                        //Validation if the customer wants to add more products than what is available in stock
                     } else if (quantity > stockQuantity) {
-                        System.out.println("⚠\uFE0F Finns inte tillräckligt i lager!" + " Antal produkt i lager: "
+                        System.out.println("⚠\uFE0F Not enough stock available! " + " Stock quantity: "
                                 + stockQuantity);
                     } else {
-                        double unitPrice = orderService.getUnitPrice(productId); // Produktens pris
+                        double unitPrice = orderService.getUnitPrice(productId); //Product price
                         OrderProduct orderProduct = new OrderProduct(productId, quantity, unitPrice);
                         orderProducts.add(orderProduct);
 
@@ -94,31 +91,30 @@ public class OrderController {
                     }
                 }
 
-
-                //Fråga om kunden vill lägga till fler produkter
+                //Ask if the customer wants to add more products
                 String answer;
                 do {
-                    System.out.println("Vill du lägga till fler produkter? (ja/nej)");
+                    System.out.println("Do you want to add more products? (yes/no)");
                     answer = scanner.nextLine().toLowerCase();
-                    if (!answer.equals("ja") && !answer.equals("nej")) {
-                        System.out.println("❌ Ogiltigt svar, ange ja eller nej");
+                    if (!answer.equals("yes") && !answer.equals("no")) {
+                        System.out.println("❌ Invalid answer, please enter yes or no");
                     }
-                } while (!answer.equals("ja") && !answer.equals("nej"));
+                } while (!answer.equals("yes") && !answer.equals("no"));
 
-                if (answer.equals("nej")) {
-                    addProduct = false; //Kunden vill ej lägga till fler produkter
+                if (answer.equals("no")) {
+                    addProduct = false; //Customer does not want to add more products
 
-                    boolean orderSuccess = orderService.addProductOnOrder(customerId, orderProducts);//Ordern läggs till
-                    orderService.updateStockQuantity(orderProducts); //Uppdatera lagersaldo i databasen
+                    boolean orderSuccess = orderService.addProductOnOrder(customerId, orderProducts);//Place the order
+                    orderService.updateStockQuantity(orderProducts); //Update stock quantity in the database
 
+                    //Total price
+                    double totalPrice = orderService.totalPrice(orderProducts); //Calculate total price
+                    String totalPriceToString = orderService.totalPriceToString(totalPrice);
+                    //convert total price to a string with two decimal places
 
-                    //Totalpriset
-                    double totalPrice = orderService.totalPrice(orderProducts); //Räkna ihop totalpriset
-                    String totalPriceToString = orderService.totalPriceToString(totalPrice); //Returnera/omvandla
-                    // totalpriset till en sträng med två decimaler.
-
-                    System.out.println("\uD83D\uDCB0 Totaltpris: " + totalPriceToString + " kr");
-                    System.out.println(orderSuccess ? "✅ Ordern har skapats" : " ❌ Order kunde ej skapas!");
+                    System.out.println("\uD83D\uDCB0 Total price: " + totalPriceToString + " SEK");
+                    System.out.println(orderSuccess ?
+                            "✅ The order has been created" : " ❌ Order could not be created!");
 
                 }
             }
@@ -126,7 +122,7 @@ public class OrderController {
     }
 
     private void getOrderHistory(Scanner scanner) throws SQLException {
-        System.out.println("Ange kundens id:");
+        System.out.println("Enter customer ID:");
         int customerId = scanner.nextInt();
         scanner.nextLine();
         orderService.getOrderHistory(customerId);

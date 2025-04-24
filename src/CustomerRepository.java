@@ -37,7 +37,6 @@ import java.util.ArrayList;
             }
         }
 
-        //Lägga till en kund
         public boolean insertCustomer(String name, String email, String password) throws SQLException{
 
             String sql = "INSERT INTO customers(name, email, password) VALUES (?, ?, ?)";
@@ -53,7 +52,6 @@ import java.util.ArrayList;
             }
         }
 
-        //Uppdatera kundens email
         public boolean updateEmail(int customerId, String email) throws SQLException{
             String sql = "UPDATE customers SET email = ? WHERE customer_id = ?";
 
